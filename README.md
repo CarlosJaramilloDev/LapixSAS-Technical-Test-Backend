@@ -59,6 +59,9 @@ The API will be available at `http://127.0.0.1:8000`.
 
 - `GET /api/books` -> Returns all books.
 - `POST /api/books` -> Creates a new book.
+- `GET /api/books/{book}` -> Returns a single book by ID.
+- `PUT /api/books/{book}` -> Updates a book by ID.
+- `DELETE /api/books/{book}` -> Deletes a book by ID.
 
 
 ## Create Book Payload
@@ -102,6 +105,34 @@ curl --location --request POST 'http://127.0.0.1:8000/api/books' \
   "price": 12000,
   "stock": 10
 }'
+```
+
+### Get book by ID
+
+```bash
+curl --location --request GET 'http://127.0.0.1:8000/api/books/1' \
+--header 'Accept: application/json'
+```
+
+### Update book
+
+```bash
+curl --location --request PUT 'http://127.0.0.1:8000/api/books/1' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "title": "El principito - Edicion actualizada",
+  "description": "Libro usado en las escuelas y colegios",
+  "price": 15000,
+  "stock": 12
+}'
+```
+
+### Delete book
+
+```bash
+curl --location --request DELETE 'http://127.0.0.1:8000/api/books/1' \
+--header 'Accept: application/json'
 ```
 
 ## Postman Collection
