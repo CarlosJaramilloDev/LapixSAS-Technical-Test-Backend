@@ -82,7 +82,7 @@ Required fields:
 
 - `title` (string, max 255)
 - `description` (string)
-- `price` (numeric, min 0)
+- `price` (integer, min 0)
 - `stock` (integer, min 0)
 
 Example:

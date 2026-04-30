@@ -26,7 +26,7 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
         ]);
 
@@ -51,7 +51,7 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
-            'price' => 'sometimes|numeric|min:0',
+            'price' => 'sometimes|integer|min:0',
             'stock' => 'prohibited',
         ]);
         $book->update($validated);
