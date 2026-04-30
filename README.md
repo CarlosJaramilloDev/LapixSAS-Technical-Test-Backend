@@ -1,5 +1,16 @@
 # Book Inventory API
 
+## AI-assisted development disclosure
+
+This submission made deliberate use of AI tools during the technical assessment:
+
+- **Gemini** and **Cursor Pro (Ask mode)** were used as tutors during coding: explanations of how to implement features and comparisons of approaches (why one option might be preferable over another).
+- **Cursor Pro (Agent mode)** was used to draft and refresh documentation (`README.md`), generate and update the Postman collection alongside code changes, and as a starting point for commit messages.
+
+Human judgment remained responsible for reviewing suggestions, integrating changes, and validating behavior.
+
+---
+
 A simple REST API to manage a book inventory, built with Laravel.
 
 ## Stack
