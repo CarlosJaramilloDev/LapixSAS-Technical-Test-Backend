@@ -71,7 +71,7 @@ The API will be available at `http://127.0.0.1:8000`.
 - `GET /api/books` -> Returns all books.
 - `POST /api/books` -> Creates a new book.
 - `GET /api/books/{book}` -> Returns a single book by ID.
-- `PUT /api/books/{book}` -> Updates a book by ID.
+- `PATCH /api/books/{book}` -> Partially updates book metadata (`title`, `description`, `price`).
 - `DELETE /api/books/{book}` -> Deletes a book by ID.
 - `POST /api/books/{book}/stock` -> Updates stock using transaction + pessimistic locking.
 
@@ -129,13 +129,28 @@ curl --location --request GET 'http://127.0.0.1:8000/api/books/1' \
 ### Update book
 
 ```bash
-curl --location --request PUT 'http://127.0.0.1:8000/api/books/1' \
+curl --location --request PATCH 'http://127.0.0.1:8000/api/books/1' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "title": "El principito - Edicion actualizada",
   "description": "Libro usado en las escuelas y colegios",
-  "price": 15000,
+  "price": 15000
+}'
+```
+
+Note:
+
+- `PATCH /api/books/{book}` does not accept `stock`.
+- Send stock changes only to `POST /api/books/{book}/stock`.
+
+Invalid example (`422 Unprocessable Entity`):
+
+```bash
+curl --location --request PATCH 'http://127.0.0.1:8000/api/books/1' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
   "stock": 12
 }'
 ```

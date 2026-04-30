@@ -49,10 +49,10 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
+            'title' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'price' => 'sometimes|numeric|min:0',
+            'stock' => 'prohibited',
         ]);
         $book->update($validated);
         return response()->json($book, 200);

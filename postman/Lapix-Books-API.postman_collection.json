@@ -91,7 +91,7 @@
     {
       "name": "Update Book",
       "request": {
-        "method": "PUT",
+        "method": "PATCH",
         "header": [
           {
             "key": "Accept",
@@ -106,7 +106,41 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"El principito - Edicion actualizada\",\n  \"description\": \"Libro usado en las escuelas y colegios\",\n  \"price\": 15000,\n  \"stock\": 12\n}"
+          "raw": "{\n  \"title\": \"El principito - Edicion actualizada\",\n  \"description\": \"Libro usado en las escuelas y colegios\",\n  \"price\": 15000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/books/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Book (Invalid - stock prohibited)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stock\": 12\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/books/1",
