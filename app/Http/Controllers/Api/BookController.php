@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -23,10 +24,10 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
         ]);
 
         $book = Book::create($validated);
@@ -48,10 +49,10 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
         ]);
         $book->update($validated);
         return response()->json($book, 200);
@@ -64,5 +65,46 @@ class BookController extends Controller
     {
         $book->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Update stock safely using database transactions and pessimistic locking.
+     */
+    public function updateStock(Request $request, Book $book)
+    {
+        $request->validate([
+            'amount' => 'required|integer',
+        ]);
+
+        try {
+            $updatedBook = DB::transaction(function () use ($book, $request) {
+
+                $currentBook = Book::whereKey($book->getKey())
+                    ->lockForUpdate()
+                    ->first();
+
+                $currentStock = (int) $currentBook->getAttribute('stock');
+                $newStock = $currentStock + (int) $request->input('amount');
+
+                if ($newStock < 0) {
+                    throw new \Exception("Operation failed: Insufficient stock available.");
+                }
+
+                $currentBook->setAttribute('stock', $newStock);
+                $currentBook->save();
+
+                return $currentBook;
+            });
+
+            return response()->json([
+                'message' => 'Stock updated successfully.',
+                'book' => $updatedBook
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 422);
+        }
     }
 }

@@ -146,6 +146,41 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Update Stock",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/books/1/stock",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "1",
+            "stock"
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "variable": [

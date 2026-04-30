@@ -62,6 +62,7 @@ The API will be available at `http://127.0.0.1:8000`.
 - `GET /api/books/{book}` -> Returns a single book by ID.
 - `PUT /api/books/{book}` -> Updates a book by ID.
 - `DELETE /api/books/{book}` -> Deletes a book by ID.
+- `POST /api/books/{book}/stock` -> Updates stock using transaction + pessimistic locking.
 
 
 ## Create Book Payload
@@ -133,6 +134,31 @@ curl --location --request PUT 'http://127.0.0.1:8000/api/books/1' \
 ```bash
 curl --location --request DELETE 'http://127.0.0.1:8000/api/books/1' \
 --header 'Accept: application/json'
+```
+
+### Update stock
+
+Payload:
+
+```json
+{
+  "amount": -2
+}
+```
+
+Notes:
+
+- Use a positive `amount` to add stock.
+- Use a negative `amount` to remove stock.
+- If resulting stock is negative, the API returns `422`.
+
+```bash
+curl --location --request POST 'http://127.0.0.1:8000/api/books/1/stock' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "amount": -2
+}'
 ```
 
 ## Postman Collection
